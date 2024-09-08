@@ -60,12 +60,12 @@ pipeline {
         stage('Delivery'){
             steps {
                 script {
-                    docker.withRegistry('http://localhost:8082', 'nexus-key') {
+                    docker.withRegistry('http://localhost:8080', 'nexus-key') {
                         sh 'docker build -t backend-base-devops:latest .'
-                        sh "docker tag backend-base:latest localhost:8082/backend-base-devops:latest"
-                        sh "docker tag backend-base:latest localhost:8082/backend-base-devops:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-                        sh 'docker push localhost:8082/backend-base-devops:latest'
-                        sh "docker push localhost:8082/backend-base-devops:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+                        sh "docker tag backend-base:latest localhost:8080/backend-base-devops:latest"
+                        sh "docker tag backend-base:latest localhost:8080/backend-base-devops:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+                        sh 'docker push localhost:8080/backend-base-devops:latest'
+                        sh "docker push localhost:8080/backend-base-devops:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
                     }
                 }
             }
@@ -79,7 +79,7 @@ pipeline {
                     } else {
                         ambiente = 'dev'
                     }
-                    docker.withRegistry('http://localhost:8082', 'nexus-key') {
+                    docker.withRegistry('http://localhost:8080', 'nexus-key') {
                         withCredentials([file(credentialsId: "${ambiente}-env", variable: 'ENV_FILE')]) {
                             writeFile file: '.env', text: readFile(ENV_FILE)
                             sh "docker compose pull"
