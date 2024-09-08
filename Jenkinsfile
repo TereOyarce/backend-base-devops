@@ -48,7 +48,7 @@ pipeline {
                         }
                     }
                 }
-                
+             
             }
         }
         stage('Delivery'){
@@ -67,12 +67,17 @@ pipeline {
             steps {
                 script {
                     
-                  
+                    if (env.BRANCH_NAME == 'main') {
+                        ambiente = 'prdd'
+                    } else {
+                        ambiente = 'dev'
+                    }
                     docker.withRegistry('http://localhost:8082', '2289d21a-da56-4a4c-afaf-245fd81b42c7') {
-                        
+                        withCredentials([file(credentialsId: "${ambiente}-env", variable: 'ENV_FILE')]) {
+                            writeFile file: '.env', text: readFile(ENV_FILE)
                             sh "docker compose pull"
                             sh "docker compose --env-file .env up -d --force-recreate"
-                        
+                        }
                     }
                 }
             }
