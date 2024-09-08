@@ -34,7 +34,7 @@ pipeline {
         }
         stage('Code Quality'){
             stages {
-                stage('SonarQube analysis') {
+                stage('SonarQube Analisis') {
                     agent {
                         docker {
                             image 'sonarsource/sonar-scanner-cli' 
@@ -48,7 +48,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Quality Gate') {
+                stage('Puerta de Calidad') {
                     steps {
                         timeout(time: 10, unit: 'SECONDS') {
                             waitForQualityGate abortPipeline: true
@@ -57,7 +57,7 @@ pipeline {
                 }
             }
         }
-        stage('delivery'){
+        stage('Delivery'){
             steps {
                 script {
                     docker.withRegistry('http://localhost:8082', 'nexus-key') {
@@ -70,12 +70,12 @@ pipeline {
                 }
             }
         }
-        stage('deploy'){
+        stage('Deploy'){
             steps {
                 script {
                     
                     if (env.BRANCH_NAME == 'main') {
-                        ambiente = 'prd'
+                        ambiente = 'prod'
                     } else {
                         ambiente = 'dev'
                     }
