@@ -60,10 +60,10 @@ pipeline {
         stage('Delivery'){
             steps {
                 script {
-                    docker.withRegistry('http://localhost:8080', '2289d21a-da56-4a4c-afaf-245fd81b42c7') {
+                    docker.withRegistry('http://localhost:8082', '2289d21a-da56-4a4c-afaf-245fd81b42c7') {
                         sh 'docker build -t backend-base-devops:latest .'
-                        sh "docker tag backend-base:latest localhost:8080/backend-base-devops:latest"
-                        sh 'docker push localhost:8080/backend-base-devops:latest'
+                        sh "docker tag backend-base:latest localhost:8082/backend-base-devops:latest"
+                        sh 'docker push localhost:8082/backend-base-devops:latest'
                         
                     }
                 }
@@ -74,7 +74,7 @@ pipeline {
                 script {
                     
                   
-                    docker.withRegistry('http://localhost:8080', '2289d21a-da56-4a4c-afaf-245fd81b42c7') {
+                    docker.withRegistry('http://localhost:8082', '2289d21a-da56-4a4c-afaf-245fd81b42c7') {
                         
                             sh "docker compose pull"
                             sh "docker compose --env-file .env up -d --force-recreate"
