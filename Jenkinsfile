@@ -60,12 +60,11 @@ pipeline {
         stage('Delivery'){
             steps {
                 script {
-                    docker.withRegistry('http://localhost:8080', 'nexus-key') {
+                    docker.withRegistry('http://localhost:8080', '2289d21a-da56-4a4c-afaf-245fd81b42c7') {
                         sh 'docker build -t backend-base-devops:latest .'
                         sh "docker tag backend-base:latest localhost:8080/backend-base-devops:latest"
-                        sh "docker tag backend-base:latest localhost:8080/backend-base-devops:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
                         sh 'docker push localhost:8080/backend-base-devops:latest'
-                        sh "docker push localhost:8080/backend-base-devops:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+                        
                     }
                 }
             }
@@ -74,17 +73,12 @@ pipeline {
             steps {
                 script {
                     
-                    if (env.BRANCH_NAME == 'main') {
-                        ambiente = 'prod'
-                    } else {
-                        ambiente = 'dev'
-                    }
-                    docker.withRegistry('http://localhost:8080', 'nexus-key') {
-                        withCredentials([file(credentialsId: "${ambiente}-env", variable: 'ENV_FILE')]) {
-                            writeFile file: '.env', text: readFile(ENV_FILE)
+                  
+                    docker.withRegistry('http://localhost:8080', '2289d21a-da56-4a4c-afaf-245fd81b42c7') {
+                        
                             sh "docker compose pull"
                             sh "docker compose --env-file .env up -d --force-recreate"
-                        }
+                        
                     }
                 }
             }
