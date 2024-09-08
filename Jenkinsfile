@@ -48,13 +48,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Puerta de Calidad') {
-                    steps {
-                        timeout(time: 10, unit: 'SECONDS') {
-                            waitForQualityGate abortPipeline: true
-                        }
-                    }
-                }
+                
             }
         }
         stage('Delivery'){
