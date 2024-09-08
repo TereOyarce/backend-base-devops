@@ -51,27 +51,27 @@ pipeline {
              
             }
         }
-       stage('delivery'){
+        stage('Delivery'){
             steps {
                 script {
                     docker.withRegistry('http://localhost:8081', 'nexus-key') {
-                        sh 'docker build -t backend-base:latest .'
-                        sh "docker tag backend-base:latest localhost:8081/backend-base:latest"
-                        sh 'docker push localhost:8081/backend-base:latest'
+                        sh 'docker build -t backend-base-devops:latest .'
+                        sh "docker tag backend-base:latest localhost:8081/backend-base-devops:latest"
+                        sh 'docker push localhost:8081/backend-base-devops:latest'
                         
+                    }
                 }
             }
         }
-        stage('deploy'){
+        stage('Deploy'){
             steps {
                 script {
                     
                     if (env.BRANCH_NAME == 'main') {
-                        ambiente = 'prd'
+                        ambiente = 'prdd'
                     } else {
                         ambiente = 'dev'
                     }
-
                     docker.withRegistry('http://localhost:8081', 'nexus-key') {
                         withCredentials([file(credentialsId: "${ambiente}-env", variable: 'ENV_FILE')]) {
                             writeFile file: '.env', text: readFile(ENV_FILE)
