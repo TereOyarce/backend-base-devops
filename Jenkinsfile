@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         USERNAME = 'Teresa Oyarce'
+        API_KEY = "12345"
     }
     options {
         disableConcurrentBuilds()
