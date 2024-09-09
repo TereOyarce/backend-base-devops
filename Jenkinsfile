@@ -55,10 +55,10 @@ pipeline {
         stage('Delivery'){
             steps {
                 script {
-                    docker.withRegistry('http://localhost:8081', 'nexus-key') {
+                    docker.withRegistry('http://localhost:8082', 'nexus-key') {
                         sh 'docker build -t backend-base-devops:latest .'
-                        sh "docker tag backend-base:latest localhost:8081/backend-base-devops:latest"
-                        sh 'docker push localhost:8081/backend-base-devops:latest'
+                        sh "docker tag backend-base:latest localhost:8082/backend-base-devops:latest"
+                        sh 'docker push localhost:8082/backend-base-devops:latest'
                         
                     }
                 }
@@ -73,7 +73,7 @@ pipeline {
                     } else {
                         ambiente = 'dev'
                     }
-                    docker.withRegistry('http://localhost:8081', 'nexus-key') {
+                    docker.withRegistry('http://localhost:8082', 'nexus-key') {
                         withCredentials([file(credentialsId: "${ambiente}-env", variable: 'ENV_FILE')]) {
                             writeFile file: '.env', text: readFile(ENV_FILE)
                             sh "docker compose pull"
