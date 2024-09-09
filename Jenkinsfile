@@ -69,7 +69,7 @@ pipeline {
                 script {
                     
                     if (env.BRANCH_NAME == 'main') {
-                        ambiente = 'prdd'
+                        ambiente = 'prd'
                     } else {
                         ambiente = 'dev'
                     }
