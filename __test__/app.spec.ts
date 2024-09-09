@@ -54,7 +54,7 @@ describe("Test Suite App", () => {
             .expect("Content-Type", /text/)
             .expect(200)
             .then((response) => {
-                expect(response.text).toBe('Hola, La frase no ingresada es palindromo');
+                expect(response.text).toBe('Hola, La frase ingresada no es palindromo');
             })
     });
 
