@@ -10,6 +10,7 @@ services:
     profiles: ['not-start']
     image: gitlab/gitlab-ee:16.10.1-ee.0
     container_name: gitlab
+    restart: always
     hostname: 'gitlab.carlosmarind.cl'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
@@ -28,6 +29,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-jenkins
+    restart: always
     ports:
       - "8080:8080"
     volumes:
@@ -35,6 +37,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   nexus:
     image: sonatype/nexus3
+    restart: always
     volumes:
       - nexus-data:/nexus-data
     ports:

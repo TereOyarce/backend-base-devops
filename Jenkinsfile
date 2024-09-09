@@ -75,7 +75,7 @@ pipeline {
                     }
                     docker.withRegistry('http://localhost:8082', 'nexus-key') {
                        sh "docker compose pull"
-                       sh "docker compose up --force-recreate --build -d"
+                       sh "docker compose up  --build -d"
                     }
                 }
             }
