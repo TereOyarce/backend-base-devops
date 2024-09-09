@@ -5,7 +5,7 @@ services:
     ports:
       - "3001:3001"
     env_file:
-      - ${ENV_FILE}
+      - .local-env
   gitlab:
     profiles: ['not-start']
     image: gitlab/gitlab-ee:16.10.1-ee.0
